@@ -20,32 +20,32 @@ public class WebCrawler {
             String name;
             int endOfName;
 
-            System.out.println("Please enter a username: ");
-            username = usernameReader.readLine();
-            address = "https://www.ecs.soton.ac.uk/people/" + username;
-            url = new URL(address);
+            System.out.println("Please enter a username: "); //prompts user for an input
+            username = usernameReader.readLine(); //reads input
+            address = "https://www.ecs.soton.ac.uk/people/" + username; //creates web address
+            url = new URL(address); //creates URL object from web address
             URLReader = new InputStreamReader(url.openStream());
             webReader = new BufferedReader(URLReader);
             
-            returnLine = webReader.readLine();
-            while(returnLine != null) {
-                if (returnLine.length() < 26) {
+            returnLine = webReader.readLine(); //reads the first line of the website
+            while(returnLine != null) { //cycles until the return is null meaning the whole file has been read
+                if (returnLine.length() < 26) { //checks whether the line is long enough to be the correct one
                     returnLine = webReader.readLine();
                 }
-                else if (returnLine.substring(16, 24).equals("og:title")) {
-                    endOfName = returnLine.length() - 4;
-                    name = returnLine.substring(35, endOfName);
-                    System.out.println(name);
-                    returnLine = null;
+                else if (returnLine.substring(16, 24).equals("og:title")) { //looks for the correct line
+                    endOfName = returnLine.length() - 4; //gets the position of the final character of the name
+                    name = returnLine.substring(35, endOfName); //gets the substring which makes up the name from the whole line
+                    System.out.println(name); //prints the name
+                    returnLine = null; //escapes the while loop by setting returnLine to null
                 }
                 else {
-                    returnLine = webReader.readLine();
+                    returnLine = webReader.readLine(); //skips to the next line of the file if the line is not correct
                 }
             }
 
-            webReader.close();
+            webReader.close(); //closes the connection to the URL
         } catch (IOException e) {
-            System.out.println("IO exception");
+            System.out.println("IO exception"); //catches IO exceptions
         }
     }
 }
